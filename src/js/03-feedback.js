@@ -11,10 +11,6 @@ const refs ={
 };
 
 refs.form.addEventListener('submit', onFormSubmit);
-//refs.textarea.addEventListener('input', throttle(onTexteriaInput, 500));
-//refs.input.addEventListener('input', throttle(onTexteriaInput, 500));
-
-
 refs.form.addEventListener('input', throttle(evt => {
      formData[evt.target.name] = evt.target.value;
      console.log(formData);
@@ -47,11 +43,9 @@ function textareaPop(e) {
   const saveMessage = localStorage.getItem('STORAGE_REY');
   const parseForm = JSON.parse(saveMessage);
 
-
   if(parseForm){
      console.log(parseForm);
      //refs.input.value = parseForm.name;
      refs.textarea.value = parseForm.message;
-   }   
-   
+   }    
 }
