@@ -11,13 +11,16 @@ const refs ={
 };
 
 refs.form.addEventListener('submit', onFormSubmit);
-refs.textarea.addEventListener('input', throttle(onTexteriaInput, 500));
-refs.input.addEventListener('input', throttle(onTexteriaInput, 500));
+//refs.textarea.addEventListener('input', throttle(onTexteriaInput, 500));
+//refs.input.addEventListener('input', throttle(onTexteriaInput, 500));
 
-refs.form.addEventListener('input', e => {
-     formData[e.target.name] = e.target.value;
+
+refs.form.addEventListener('input', throttle(evt => {
+     formData[evt.target.name] = evt.target.value;
      console.log(formData);
-});
+
+     formInfo();
+},500));
 
 
 textareaPop();
@@ -25,7 +28,7 @@ textareaPop();
 
 function onFormSubmit(evt) {
   evt.preventDefault();
-
+  
   console.log('Отправляем форму');
 
  //метод который очищает форму
@@ -34,24 +37,21 @@ function onFormSubmit(evt) {
  localStorage.removeItem('STORAGE_REY');
 }
 
-function onTexteriaInput(evt) {
-     //   const message = evt.target.value;
-     //   console.log(message);
-     //  localStorage.setItem('STORAGE_REY', message);
-     
-     
-     const infoUser = JSON.stringify(formData);
-     //console.log(infoUser);
-     localStorage.setItem('STORAGE_REY', infoUser);
+
+function formInfo() {
+     const json = JSON.stringify(formData);
+     localStorage.setItem('STORAGE_REY', json);
 }
 
-function textareaPop() {
+function textareaPop(e) {
   const saveMessage = localStorage.getItem('STORAGE_REY');
+  const parseForm = JSON.parse(saveMessage);
 
-    if(saveMessage){
-         console.log(saveMessage);
-         refs.textarea.value = saveMessage;
-     }
+
+  if(parseForm){
+     console.log(parseForm);
+     //refs.input.value = parseForm.name;
+     refs.textarea.value = parseForm.message;
+   }   
    
 }
-

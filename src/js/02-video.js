@@ -2,13 +2,13 @@
 const iframeEl = document.querySelector('iframe');
 console.log(iframeEl);
 
-player.on('play', function() {
-    console.log('played the video!');
-});
+// player.on('play', function() {
+//     console.log('played the video!');
+// });
 
-player.getVideoTitle().then(function(title) {
-    console.log('title:', title);
-});
+// player.getVideoTitle().then(function(title) {
+//     console.log('title:', title);
+// });
 
 // Выполняй это задание в файлах 02-video.html и 02-video.js. Разбей его на несколько подзадач:
 
