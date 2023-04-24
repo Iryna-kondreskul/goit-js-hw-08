@@ -45,7 +45,7 @@ function textareaPop(e) {
 
   if(parseForm){
      console.log(parseForm);
-     //refs.input.value = parseForm.name;
+     refs.input.value = parseForm.email;
      refs.textarea.value = parseForm.message;
    }    
 }
