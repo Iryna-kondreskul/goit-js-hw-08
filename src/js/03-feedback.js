@@ -1,51 +1,39 @@
 import throttle from 'lodash.throttle'
 
+const form = document.querySelector('.feedback-form');
+
 const STORAGE_REY = 'feedback-form-state';
 
  const formData = {};
 
-const refs ={
-    form:document.querySelector('.feedback-form'),
-    textarea:document.querySelector('textarea'),
-    input:document.querySelector('input'),
-};
 
-refs.form.addEventListener('submit', onFormSubmit);
-refs.form.addEventListener('input', throttle(evt => {
-     formData[evt.target.name] = evt.target.value;
-     console.log(formData);
-
-     formInfo();
-},500));
-
-
-textareaPop();
-
+form.addEventListener('input', throttle(onFormDate, 500));
+form.addEventListener('submit', onFormSubmit);
+onInfoFormLocaleStorage();
 
 function onFormSubmit(evt) {
-  evt.preventDefault();
-  
-  console.log('Отправляем форму');
+     console.log(JSON.parse(localStorage.getItem('STORAGE_REY')));
+     evt.preventDefault();
+        
+    //метод который очищает форму
+    evt.currentTarget.reset();
+   
+    localStorage.removeItem('STORAGE_REY');
+   }
 
- //метод который очищает форму
- evt.currentTarget.reset();
-
- localStorage.removeItem('STORAGE_REY');
+function onFormDate(evt) {
+     formData[evt.target.name] = evt.target.value;
+     console.log(formData);
+     localStorage.setItem('STORAGE_REY', JSON.stringify(formData));
 }
 
+function onInfoFormLocaleStorage(evt){
+     const saveMessage = JSON.parse(localStorage.getItem('STORAGE_REY'));
+     const email = document.querySelector('.feedback-form input');
+     const message = document.querySelector('.feedback-form textarea');
 
-function formInfo() {
-     const json = JSON.stringify(formData);
-     localStorage.setItem('STORAGE_REY', json);
-}
-
-function textareaPop(e) {
-  const saveMessage = localStorage.getItem('STORAGE_REY');
-  const parseForm = JSON.parse(saveMessage);
-
-  if(parseForm){
-     console.log(parseForm);
-     refs.input.value = parseForm.email;
-     refs.textarea.value = parseForm.message;
-   }    
+     if(saveMessage){
+          email.value = saveMessage.email;
+          message.value = saveMessage.message;
+     }
 }
