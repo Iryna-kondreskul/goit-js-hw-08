@@ -9,7 +9,7 @@ const STORAGE_REY = 'feedback-form-state';
 
 form.addEventListener('input', throttle(onFormDate, 500));
 form.addEventListener('submit', onFormSubmit);
-onInfoFormLocaleStorage();
+// onInfoFormLocaleStorage();
 
 function onFormSubmit(evt) {
      console.log(JSON.parse(localStorage.getItem('STORAGE_REY')));
@@ -27,7 +27,7 @@ function onFormDate(evt) {
      localStorage.setItem('STORAGE_REY', JSON.stringify(formData));
 }
 
-function onInfoFormLocaleStorage(evt){
+(function onInfoFormLocaleStorage(evt){
      const saveMessage = JSON.parse(localStorage.getItem('STORAGE_REY'));
      const email = document.querySelector('.feedback-form input');
      const message = document.querySelector('.feedback-form textarea');
@@ -36,4 +36,4 @@ function onInfoFormLocaleStorage(evt){
           email.value = saveMessage.email;
           message.value = saveMessage.message;
      }
-}
+})();
