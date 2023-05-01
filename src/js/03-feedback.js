@@ -1,39 +1,35 @@
 import throttle from 'lodash.throttle'
 
-const form = document.querySelector('.feedback-form');
-
+const form = document.querySelector('form');
 const STORAGE_REY = 'feedback-form-state';
+let date = JSON.parse(localStorage.getItem(STORAGE_REY)) ?? {};
 
- const formData = {};
-
-
-form.addEventListener('input', throttle(onFormDate, 500));
-form.addEventListener('submit', onFormSubmit);
-// onInfoFormLocaleStorage();
-
-function onFormSubmit(evt) {
-     console.log(JSON.parse(localStorage.getItem('STORAGE_REY')));
+ form.addEventListener('submit', onSubmit);
+ form.addEventListener('input', throttle(onInput, 500));
+ 
+ 
+ function onSubmit(evt){
      evt.preventDefault();
-        
-    //метод который очищает форму
-    evt.currentTarget.reset();
-   
-    localStorage.removeItem('STORAGE_REY');
-   }
+     console.log(date);
+     date = {};
+     localStorage.removeItem(STORAGE_REY)
+     evt.currentTarget.reset();
 
-function onFormDate(evt) {
-     formData[evt.target.name] = evt.target.value;
-     console.log(formData);
-     localStorage.setItem('STORAGE_REY', JSON.stringify(formData));
-}
+ }
 
-(function onInfoFormLocaleStorage(evt){
-     const saveMessage = JSON.parse(localStorage.getItem('STORAGE_REY'));
-     const email = document.querySelector('.feedback-form input');
-     const message = document.querySelector('.feedback-form textarea');
+ (function(){
+     const {email, message} = form.elements;
+     email.value = date.email || '';
+     message.value = date.message || '';
+ })();
 
-     if(saveMessage){
-          email.value = saveMessage.email;
-          message.value = saveMessage.message;
-     }
-})();
+ function onInput(evt){
+    const {name, value} = evt.target;
+    date[name] = value; 
+
+    localStorage.setItem(STORAGE_REY, JSON.stringify(date));
+ }
+ 
+
+ 
+
